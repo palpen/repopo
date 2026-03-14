@@ -1,6 +1,6 @@
-# GitHub Repo Hunt (MVP)
+# repopo
 
-A platform to discover and share cool developer projects from GitHub.
+A platform to discover and share Github projects.
 
 ## Getting Started
 
@@ -17,7 +17,7 @@ This project uses **Prisma 7** with a PostgreSQL driver adapter. To set up your 
 1. **Prerequisites**: Ensure you have a PostgreSQL instance running locally (default port `5432`).
 2. **Environment Variables**: Create a `.env` file in the root directory and add your connection string:
    ```env
-   LOCAL_DATABASE_URL="postgresql://USERNAME@localhost:5432/githubhunt"
+   LOCAL_DATABASE_URL="postgresql://USERNAME@localhost:5432/repopo"
    ```
 3. **Initialize Database**: Sync the Prisma schema to your local database and generate the client:
    ```bash

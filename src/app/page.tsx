@@ -11,10 +11,10 @@ export default async function Home() {
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-4">
-            GitHub Repo Hunt
+            repopo
           </h1>
           <p className="text-xl text-gray-500">
-            Discover and share cool developer projects.
+            Discover and share Github projects
           </p>
         </header>
 
