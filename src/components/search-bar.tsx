@@ -6,6 +6,11 @@ export default function SearchBar({ onSearch }: { onSearch: (q: string) => void 
   const [query, setQuery] = useState('');
 
   useEffect(() => {
+    // Skip initial search on mount if query is empty
+    if (!query) {
+      return;
+    }
+
     const timer = setTimeout(() => {
       onSearch(query);
     }, 300);

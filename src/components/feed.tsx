@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useCallback } from 'react';
 import { App } from '../lib/types';
 import { getFeed } from '../actions/get-feed';
 import { searchApps } from '../actions/search-apps';
@@ -13,7 +13,7 @@ export default function Feed({ initialApps }: { initialApps: App[] }) {
   const [query, setQuery] = useState('');
   const [isPending, startTransition] = useTransition();
 
-  const handleSearch = (q: string) => {
+  const handleSearch = useCallback((q: string) => {
     setQuery(q);
     setPage(1);
     startTransition(async () => {
@@ -25,7 +25,7 @@ export default function Feed({ initialApps }: { initialApps: App[] }) {
         if (result.success) setApps(result.data);
       }
     });
-  };
+  }, []);
 
   const loadMore = () => {
     const nextPage = page + 1;
