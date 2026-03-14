@@ -55,6 +55,14 @@ export const appRepository = {
     });
   },
 
+  async findTop(limit: number, offset: number): Promise<App[]> {
+    return await prisma.app.findMany({
+      orderBy: { click_count: 'desc' },
+      take: limit,
+      skip: offset,
+    });
+  },
+
   async incrementClickCount(id: string): Promise<void> {
     await prisma.app.update({
       where: { id },
