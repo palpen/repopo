@@ -7,13 +7,13 @@ export default async function Home() {
   const initialApps = result.success ? result.data : [];
 
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-4">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl mb-4">
             repopo
           </h1>
-          <p className="text-xl text-gray-500">
+          <p className="text-xl text-gray-500 dark:text-gray-400">
             Discover and share Github projects
           </p>
         </header>

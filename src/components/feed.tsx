@@ -66,8 +66,8 @@ export default function Feed({ initialApps }: { initialApps: App[] }) {
           onClick={() => handleSort('new')}
           className={`px-3 py-1.5 text-sm font-medium rounded ${
             sort === 'new'
-              ? 'bg-gray-800 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
           }`}
         >
           New
@@ -76,19 +76,19 @@ export default function Feed({ initialApps }: { initialApps: App[] }) {
           onClick={() => handleSort('top')}
           className={`px-3 py-1.5 text-sm font-medium rounded ${
             sort === 'top'
-              ? 'bg-gray-800 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
           }`}
         >
           Top
         </button>
       </div>
       
-      {isPending && <p className="text-gray-500 text-center mb-4">Loading...</p>}
+      {isPending && <p className="text-gray-500 dark:text-gray-400 text-center mb-4">Loading...</p>}
       
       <div className="flex flex-col gap-4">
         {apps.length === 0 ? (
-          <p className="text-center text-gray-500 py-8 border rounded border-dashed">
+          <p className="text-center text-gray-500 dark:text-gray-400 py-8 border border-gray-200 dark:border-gray-700 rounded border-dashed">
             {query ? "No repositories match your search." : "No repositories yet. Be the first to submit one!"}
           </p>
         ) : (
@@ -101,7 +101,7 @@ export default function Feed({ initialApps }: { initialApps: App[] }) {
           <button
             onClick={loadMore}
             disabled={isPending}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded disabled:opacity-50"
+            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded disabled:opacity-50"
           >
             Load More
           </button>

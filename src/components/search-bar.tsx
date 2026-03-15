@@ -25,7 +25,7 @@ export default function SearchBar({ onSearch }: { onSearch: (q: string) => void 
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search repositories..."
-        className="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );
