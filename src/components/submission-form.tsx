@@ -39,7 +39,7 @@ export default function SubmissionForm() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://github.com/owner/repo"
-            className="flex-1 p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
             disabled={isPending}
           />
@@ -51,8 +51,8 @@ export default function SubmissionForm() {
             {isPending ? 'Submitting...' : 'Submit'}
           </button>
         </div>
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-        {success && <p className="text-green-600 text-sm mt-1">{success}</p>}
+        {error && <p className="text-red-500 dark:text-red-400 text-sm mt-1">{error}</p>}
+        {success && <p className="text-green-600 dark:text-green-400 text-sm mt-1">{success}</p>}
       </form>
     </div>
   );

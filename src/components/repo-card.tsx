@@ -24,7 +24,7 @@ export default function RepoCard({ app }: { app: App }) {
   };
 
   return (
-    <div className="p-4 border rounded shadow-sm hover:shadow-md transition-shadow bg-white flex justify-between items-center">
+    <div className="p-4 border border-gray-200 dark:border-gray-700 rounded shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-gray-800 flex justify-between items-center">
       <div>
         <h3 className="text-lg font-semibold">
           <a
@@ -32,15 +32,15 @@ export default function RepoCard({ app }: { app: App }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleClick}
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             {app.owner}/{app.repo_name}
           </a>
         </h3>
-        <p className="text-gray-500 text-sm mt-1">Submitted {timeAgo(app.created_at)}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Submitted {timeAgo(app.created_at)}</p>
       </div>
       <div>
-        <span className="text-gray-400 text-sm">{app.click_count} clicks</span>
+        <span className="text-gray-400 dark:text-gray-500 text-sm">{app.click_count} clicks</span>
       </div>
     </div>
   );
