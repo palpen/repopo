@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { createHash } from 'crypto';
 import { App, ParsedGitHubUrl } from '../lib/types';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
@@ -11,6 +12,10 @@ const adapter = new PrismaPg(pool as any);
 
 export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+function hashIp(ip: string): string {
+  return createHash('sha256').update(ip).digest('hex');
+}
 
 export const appRepository = {
   async create(data: ParsedGitHubUrl): Promise<App> {
@@ -36,9 +41,9 @@ export const appRepository = {
   },
 
   async search(query: string, limit: number, offset: number): Promise<App[]> {
-    const safeQuery = query.replace(/[^\w\s]/gi, '').trim().split(/\s+/).join(' | ');
+    const safeQuery = query.replace(/[^\w\s.\-]/gi, '').trim().split(/\s+/).join(' | ');
     if (!safeQuery) return [];
-    
+
     return await prisma.$queryRaw<App[]>`
       SELECT * FROM "App"
       WHERE to_tsvector('english', owner || ' ' || repo_name) @@ to_tsquery('english', ${safeQuery})
@@ -63,10 +68,50 @@ export const appRepository = {
     });
   },
 
-  async incrementClickCount(id: string): Promise<void> {
-    await prisma.app.update({
-      where: { id },
-      data: { click_count: { increment: 1 } },
+  async trackUniqueClick(appId: string, ip: string): Promise<boolean> {
+    const ipHash = hashIp(ip);
+    try {
+      await prisma.click.create({
+        data: { app_id: appId, ip_hash: ipHash },
+      });
+      await prisma.app.update({
+        where: { id: appId },
+        data: { click_count: { increment: 1 } },
+      });
+      return true;
+    } catch (error: unknown) {
+      // Unique constraint violation means this IP already clicked this app
+      if (
+        error instanceof Error &&
+        'code' in error &&
+        (error as { code: string }).code === 'P2002'
+      ) {
+        return false;
+      }
+      throw error;
+    }
+  },
+
+  async checkRateLimit(ip: string, action: string, maxRequests: number, windowMs: number): Promise<boolean> {
+    const ipHash = hashIp(ip);
+    const windowStart = new Date(Date.now() - windowMs);
+
+    const count = await prisma.rateLimit.count({
+      where: {
+        ip_hash: ipHash,
+        action,
+        created_at: { gte: windowStart },
+      },
     });
-  }
+
+    if (count >= maxRequests) {
+      return false;
+    }
+
+    await prisma.rateLimit.create({
+      data: { ip_hash: ipHash, action },
+    });
+
+    return true;
+  },
 };

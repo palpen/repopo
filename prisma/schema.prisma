@@ -13,8 +13,29 @@ model App {
   repo_name   String
   created_at  DateTime @default(now())
   click_count Int      @default(0)
+  clicks      Click[]
 
   @@index([owner, repo_name])
   @@index([created_at(sort: Desc)])
   @@index([click_count(sort: Desc)])
+}
+
+model Click {
+  id         String   @id @default(uuid()) @db.Uuid
+  app_id     String   @db.Uuid
+  ip_hash    String
+  created_at DateTime @default(now())
+  app        App      @relation(fields: [app_id], references: [id], onDelete: Cascade)
+
+  @@unique([app_id, ip_hash])
+  @@index([app_id])
+}
+
+model RateLimit {
+  id         String   @id @default(uuid()) @db.Uuid
+  ip_hash    String
+  action     String
+  created_at DateTime @default(now())
+
+  @@index([ip_hash, action, created_at])
 }
